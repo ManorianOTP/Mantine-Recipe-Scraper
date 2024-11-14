@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import NavBar from './nav-bar';
+import HeaderBar from './header-bar';
 
 const meta = {
-  component: NavBar,
-} satisfies Meta<typeof NavBar>;
+  component: HeaderBar,
+} satisfies Meta<typeof HeaderBar>;
 
 export default meta;
 
