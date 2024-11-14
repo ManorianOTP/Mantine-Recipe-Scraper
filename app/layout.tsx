@@ -1,15 +1,16 @@
 import '@mantine/core/styles.css';
-import type { Metadata } from "next";
+
 import React from 'react';
+import type { Metadata } from 'next';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
-import { HtmlDataProvider } from "./contexts/HtmlDataContext";
+import { HtmlDataProvider } from './contexts/HtmlDataContext';
 
 export const metadata: Metadata = {
-  title: "Recipe Scraper",
-  description: "Web scraper designed to locally store online recipes",
+  title: 'Recipe Scraper',
+  description: 'Web scraper designed to locally store online recipes',
   icons: {
-    icon: "/recipe-icon.png", // https://www.flaticon.com/free-icon/recipe_3565418
+    icon: '/recipe-icon.png', // https://www.flaticon.com/free-icon/recipe_3565418
   },
 };
 
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}><HtmlDataProvider>{children}</HtmlDataProvider></MantineProvider>
+        <MantineProvider theme={theme}>
+          <HtmlDataProvider>{children}</HtmlDataProvider>
+        </MantineProvider>
       </body>
     </html>
   );

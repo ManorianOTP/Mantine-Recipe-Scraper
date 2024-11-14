@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { TextInput, Button, Alert, Title, Text, Container, Stack } from "@mantine/core";
-import { useHtmlData } from "@/app/contexts/HtmlDataContext";
+import { useState } from 'react';
+import { Alert, Button, Container, Stack, Text, TextInput, Title } from '@mantine/core';
+import { useHtmlData } from '@/app/contexts/HtmlDataContext';
 
 export default function ScrapeBox() {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
   const { setRecipeData } = useHtmlData();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setRecipeData(null);
     setIsLoading(true);
 
     try {
       const response = await fetch(`/api/scrape?url=${encodeURIComponent(url)}`);
-      if (!response.ok) throw new Error("Failed to fetch recipe");
+      if (!response.ok) throw new Error('Failed to fetch recipe');
 
       const data = await response.json();
       setRecipeData(data);
     } catch (error) {
-      setError("Error fetching recipe. Please check the URL and try again.");
+      setError('Error fetching recipe. Please check the URL and try again.');
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +47,7 @@ export default function ScrapeBox() {
             size="md"
             // icon={<Search size={20} />}
             styles={{
-              input: { height: "3rem", fontSize: "1rem" },
+              input: { height: '3rem', fontSize: '1rem' },
             }}
           />
 
@@ -58,14 +58,14 @@ export default function ScrapeBox() {
             radius="md"
             fullWidth
             loading={isLoading}
-            style={{ height: "3rem", fontWeight: "bold", marginTop: "1rem" }}
+            style={{ height: '3rem', fontWeight: 'bold', marginTop: '1rem' }}
           >
-            {isLoading ? "Fetching Recipe..." : "Extract Recipe"}
+            {isLoading ? 'Fetching Recipe...' : 'Extract Recipe'}
           </Button>
         </form>
 
         {error && (
-          <Alert color="red" title="Error" withCloseButton onClose={() => setError("")} mt="md">
+          <Alert color="red" title="Error" withCloseButton onClose={() => setError('')} mt="md">
             {error}
           </Alert>
         )}

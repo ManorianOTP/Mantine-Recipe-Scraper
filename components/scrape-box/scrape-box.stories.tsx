@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
-import ScrapeBox from './scrape-box';
 import { HtmlDataProvider } from '@/app/contexts/HtmlDataContext';
+import ScrapeBox from './scrape-box';
 
 const meta = {
   component: ScrapeBox,
