@@ -38,11 +38,9 @@ export async function GET(req: { url: string | URL }) {
       ingredients,
       method,
     };
-    console.log(recipe);
     // Return the scraped data as a JSON response
     return NextResponse.json(recipe);
   } catch (error) {
-    console.error('Error fetching recipe:', error);
     return NextResponse.json({ message: 'Error fetching recipe' }, { status: 500 });
   }
 }

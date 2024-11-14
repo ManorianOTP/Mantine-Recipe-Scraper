@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { ActionIcon, Button, Group, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { useMounted } from '@mantine/hooks';
 
 export function ColorSchemeToggle() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { colorScheme } = useMantineColorScheme();
   const { setColorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
 

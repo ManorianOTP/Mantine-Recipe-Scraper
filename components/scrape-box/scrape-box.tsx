@@ -22,7 +22,7 @@ export default function ScrapeBox() {
 
       const data = await response.json();
       setRecipeData(data);
-    } catch (error) {
+    } catch (errorMsg) { // used to be error
       setError('Error fetching recipe. Please check the URL and try again.');
     } finally {
       setIsLoading(false);

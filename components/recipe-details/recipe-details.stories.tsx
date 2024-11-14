@@ -36,15 +36,15 @@ const mockData = {
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: (args) =>
     // Here we call the hook inside the context provider and set the mock data
-    return (
+     (
       <HtmlDataProvider>
         <SetMockData />
         <RecipeDetails {...args} />
       </HtmlDataProvider>
-    );
-  },
+    )
+  ,
 };
 
 const SetMockData = () => {

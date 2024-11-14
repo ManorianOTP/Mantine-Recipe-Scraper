@@ -1,4 +1,5 @@
 // components/RecipeDetails.tsx
+
 'use client';
 
 import { Clock, Users } from 'lucide-react';
