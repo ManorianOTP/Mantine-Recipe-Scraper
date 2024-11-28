@@ -2,25 +2,33 @@
 
 import React from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { ActionIcon, useMantineColorScheme } from '@mantine/core';
-import { useMounted } from '@mantine/hooks';
+import { ActionIcon, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 
 export function ColorSchemeToggle() {
-  const { colorScheme } = useMantineColorScheme();
   const { setColorScheme } = useMantineColorScheme();
-  const isDark = colorScheme === 'dark';
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
-  const isMounted = useMounted();
-
-  return isMounted ? (
-    <ActionIcon
-      color={isDark ? 'yellow' : 'blue'}
-      variant="subtle"
-      onClick={() => setColorScheme(isDark ? 'light' : 'dark')}
-      radius="xl"
-      size="lg"
-    >
-      {isDark ? <Sun size={18} /> : <Moon size={18} />}
-    </ActionIcon>
-  ) : null;
+  return (
+    <>
+      <ActionIcon
+        color='blue'
+        variant="subtle"
+        onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+        radius="xl"
+        size="lg"
+      darkHidden>
+        <Sun size={18} />
+      </ActionIcon>
+      <ActionIcon
+        color='yellow'
+        variant="subtle"
+        onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+        radius="xl"
+        size="lg"
+        lightHidden
+      >
+        <Moon size={18} />
+      </ActionIcon>
+    </>
+  );
 }

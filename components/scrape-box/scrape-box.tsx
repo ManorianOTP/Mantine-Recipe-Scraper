@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Alert, Button, Container, Stack, Text, TextInput, Title } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
+import { ActionIcon, Alert, Loader, TextInput, useMantineColorScheme } from '@mantine/core';
+import { useMediaQuery, useMounted } from '@mantine/hooks';
 import { useHtmlData } from '@/app/contexts/HtmlDataContext';
+import classes from './scrape-box.module.css';
 
 export default function ScrapeBox() {
   const [url, setUrl] = useState('');
@@ -22,54 +25,40 @@ export default function ScrapeBox() {
 
       const data = await response.json();
       setRecipeData(data);
-    } catch (errorMsg) { // used to be error
+    } catch (errorMsg) {
+      // used to be error
       setError('Error fetching recipe. Please check the URL and try again.');
     } finally {
       setIsLoading(false);
     }
   };
+  const isLargeScreen = useMediaQuery('(min-width: 1440px)');
 
   return (
-    <Container size="sm" className="min-h-[50vh] flex items-center justify-center px-4">
-      <Stack>
-        <div className="text-center">
-          <Title order={1}>Recipe Scraper</Title>
-          <Text color="dimmed">Enter a recipe URL to extract ingredients and instructions</Text>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            type="url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://example.com/recipe"
-            radius="md"
-            size="md"
-            // icon={<Search size={20} />}
-            styles={{
-              input: { height: '3rem', fontSize: '1rem' },
-            }}
-          />
-
-          <Button
-            type="submit"
-            color="blue"
-            size="md"
-            radius="md"
-            fullWidth
-            loading={isLoading}
-            style={{ height: '3rem', fontWeight: 'bold', marginTop: '1rem' }}
-          >
-            {isLoading ? 'Fetching Recipe...' : 'Extract Recipe'}
-          </Button>
-        </form>
-
-        {error && (
-          <Alert color="red" title="Error" withCloseButton onClose={() => setError('')} mt="md">
-            {error}
-          </Alert>
-        )}
-      </Stack>
-    </Container>
+    <>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <TextInput
+          type="url"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="Add a new recipe"
+          rightSection={
+            <>
+              <ActionIcon color="blue" type="submit" variant="subtle" radius="xl" darkHidden>
+                {isLoading ? <Loader size="xs" /> : <IconSearch size={16} strokeWidth={1.5} />}
+              </ActionIcon>
+              <ActionIcon color="yellow" type="submit" variant="subtle" radius="xl" lightHidden>
+                {isLoading ? <Loader size="xs" /> : <IconSearch size={16} strokeWidth={1.5} />}
+              </ActionIcon>
+            </>
+          }
+        />
+      </form>
+      {error && (
+        <Alert color="red" title="Error" withCloseButton onClose={() => setError('')} mt="md">
+          {error}
+        </Alert>
+      )}
+    </>
   );
 }
