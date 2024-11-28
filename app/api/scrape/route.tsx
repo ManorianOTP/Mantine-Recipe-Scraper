@@ -1,4 +1,3 @@
-// src/app/api/scrape/route.js
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
@@ -15,16 +14,13 @@ export async function GET(req: { url: string | URL }) {
     const { data } = await axios.get(recipeUrl);
     const $ = cheerio.load(data);
 
-    // Scrape the recipe title
     const title = $('h1').text().trim();
 
-    // Scrape the ingredients
     const ingredients: string[] = [];
     $('#ingredients-list .list-item').each((index, element) => {
       ingredients.push($(element).text().trim());
     });
 
-    // Scrape the method (instructions)
     const method: string[] = [];
     $('.js-piano-recipe-method .method-steps__list-item').each((index, element) => {
       const step = $(element).find('.editor-content p').text().trim();

@@ -1,9 +1,7 @@
-// components/RecipeDetails.tsx
-
 'use client';
 
 import { Clock, Users } from 'lucide-react';
-import { Card, Checkbox, Divider, Text, Title } from '@mantine/core';
+import { Checkbox, Divider, Text, Title } from '@mantine/core';
 import { useHtmlData } from '@/app/contexts/HtmlDataContext';
 
 export default function RecipeDetails() {
