@@ -15,5 +15,5 @@ export const Default: Story = {
     <HtmlDataProvider>
       <HeaderBar {...args} />
     </HtmlDataProvider>
-  )
+  ),
 };

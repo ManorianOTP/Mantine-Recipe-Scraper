@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { Group, Text } from '@mantine/core';
+import Link from 'next/link';
 import { ColorSchemeToggle } from '../color-scheme-toggle/ColorSchemeToggle';
 import ScrapeBox from '../scrape-box/scrape-box';
 import classes from './header-bar.module.css';
-import Link from 'next/link';
 
 export default function HeaderBar() {
   return (
@@ -13,7 +13,7 @@ export default function HeaderBar() {
       <div className={classes.inner}>
         <Group>
           <Image
-            priority={true}
+            priority
             src="/recipe-icon.png"
             alt="FlavorSync Logo"
             width={50}

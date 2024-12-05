@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Clock, Users } from 'lucide-react';
 import { Checkbox, Divider, Flex, Rating, Stack, Text, Title } from '@mantine/core';
 import { useHtmlData } from '@/app/contexts/HtmlDataContext';
+import EditableText from '@/components/editable-text/editable-text';
 
 export default function RecipeDetails() {
   const { recipeData } = useHtmlData();
@@ -18,28 +19,22 @@ export default function RecipeDetails() {
           height={350}
           src={recipeData.image}
           alt="Recipe Image"
-          style={{ objectFit: 'cover'}}
-          priority={true}
+          style={{ objectFit: 'cover' }}
+          priority
         />
-        <Stack justify="space-between" style={{flexGrow: '1', paddingLeft: '2px'}}>
+        <Stack justify="space-between" style={{ flexGrow: '1', paddingLeft: '2px' }}>
           <div>
             <Title order={1} style={{ marginBottom: '2px' }}>
               {recipeData.title}
             </Title>
             <Rating fractions={2} style={{ marginBottom: '2px' }} />
             <Text>Category</Text>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore
-              quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur,
-              asperiores itaque aut explicabo exercitationem quis perferendis suscipit? Lorem ipsum
-              dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum
-              sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque
-              aut explicabo exercitationem quis perferendis suscipit?
-            </Text>
+            {/* <Text>{recipeData.description}</Text> */}
+            <EditableText />
           </div>
           <div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Clock size={18} />
                 <Text ml="xs">Prep Time: {recipeData.prepTime} mins</Text>
               </div>
@@ -47,7 +42,7 @@ export default function RecipeDetails() {
                 <Clock size={18} />
                 <Text ml="xs">Cook Time: {recipeData.cookTime} mins</Text>
               </div>
-              
+
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Users size={18} />
                 <Text ml="xs">Serves {recipeData.servings}</Text>
