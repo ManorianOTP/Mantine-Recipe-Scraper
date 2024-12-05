@@ -16,7 +16,7 @@ export default function RecipeDetails() {
         <Image
           width={350}
           height={350}
-          src="/chocolate-fudge-cake-91de17a.webp"
+          src={recipeData.image}
           alt="Recipe Image"
           style={{ objectFit: 'cover'}}
           priority={true}
@@ -39,13 +39,18 @@ export default function RecipeDetails() {
           </div>
           <div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Clock size={18} />
-                <Text ml="xs">30 mins</Text>
+                <Text ml="xs">Prep Time: {recipeData.prepTime} mins</Text>
               </div>
               <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Clock size={18} />
+                <Text ml="xs">Cook Time: {recipeData.cookTime} mins</Text>
+              </div>
+              
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Users size={18} />
-                <Text ml="xs">Serves 4</Text>
+                <Text ml="xs">Serves {recipeData.servings}</Text>
               </div>
             </div>
           </div>
