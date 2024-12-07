@@ -30,7 +30,7 @@ export default function RecipeDetails() {
             <Rating fractions={2} style={{ marginBottom: '2px' }} />
             <Text>Category</Text>
             {/* <Text>{recipeData.description}</Text> */}
-            <EditableText />
+            <EditableText dataKey='description'/>
           </div>
           <div>
             <div style={{ display: 'flex', gap: '1rem' }}>

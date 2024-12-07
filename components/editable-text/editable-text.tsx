@@ -1,46 +1,81 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Edit } from 'lucide-react';
-import { ActionIcon, Group, Stack, Text, Textarea } from '@mantine/core';
-import { useHtmlData } from '@/app/contexts/HtmlDataContext';
+import { useState } from 'react'
+import { Edit, Save } from 'lucide-react'
+import { ActionIcon, Group, Stack, Text, Textarea } from '@mantine/core'
+import { useHover } from '@mantine/hooks'
+import { useHtmlData } from '@/app/contexts/HtmlDataContext'
+import type { Recipe } from '@/app/types'
 
-export default function EditableText() {
-  const { recipeData } = useHtmlData();
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentDescription, setCurrentDescription] = useState(recipeData?.description || '');
+interface EditableTextProps {
+  dataKey: keyof Recipe
+}
 
-  if (!recipeData) return null;
+export default function EditableText ({ dataKey }: EditableTextProps) {
+  const { recipeData } = useHtmlData()
+  const [isEditing, setIsEditing] = useState(false)
+  const [currentValue, setCurrentValue] = useState(recipeData?.[dataKey] || '')
+  const { hovered, ref } = useHover()
 
-  const handleEditClick = () => setIsEditing(true);
-  const handleSave = () => setIsEditing(false); // Add save logic if needed
+  if (!recipeData) return null
+
+  const handleEditClick = () => setIsEditing(true)
+  const handleSave = () => {
+    setIsEditing(false)
+    // Add save logic here if needed, e.g., update recipeData in a context or API
+  }
 
   return (
     <Stack>
       {isEditing ? (
-        <Textarea
-          variant="unstyled"
-          radius="xs"
-          autosize
-          value={currentDescription}
-          onChange={(event) => setCurrentDescription(event.target.value)}
-          onBlur={handleSave} // Save changes on blur
-          styles={{
-            input: {
-              fontSize: 'inherit',
-              lineHeight: 'inherit',
-              color: 'inherit',
-            },
-          }}
-        />
+        <div ref={ref}>
+          <Group preventGrowOverflow>
+            <Textarea
+              variant='unstyled'
+              radius='xs'
+              autosize
+              value={currentValue}
+              onChange={event => setCurrentValue(event.target.value)}
+              style={{ flexGrow: '1' }}
+              styles={{
+                input: {
+                  fontSize: 'inherit',
+                  lineHeight: 'inherit',
+                  color: 'inherit',
+                  border: 'inherit',
+                  padding: 'inherit'
+                }
+              }}
+            />
+            {hovered ? (
+              <ActionIcon onClick={handleSave} size='sm' radius='xl'>
+                <Save size={16} />
+              </ActionIcon>
+            ) : (
+              <Save size={22} style={{ opacity: 0 }} /> // size 22 to be same size as actionicon wrapper
+            )}
+          </Group>
+        </div>
       ) : (
-        <Text>
-          <ActionIcon onClick={handleEditClick} size="sm" radius="xl">
-            <Edit size={16} />
-          </ActionIcon>
-          {currentDescription}
-        </Text>
+        <div ref={ref}>
+          <Group preventGrowOverflow>
+            <Text
+              style={{
+                flex: 1
+              }}
+            >
+              {currentValue}
+            </Text>
+            {hovered ? (
+              <ActionIcon onClick={handleEditClick} size='sm' radius='xl'>
+                <Edit size={16} />
+              </ActionIcon>
+            ) : (
+              <Edit size={22} style={{ opacity: 0 }} /> // size 22 to be same size as actionicon wrapper
+            )}
+          </Group>
+        </div>
       )}
     </Stack>
-  );
+  )
 }
