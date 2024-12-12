@@ -1,29 +1,29 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Edit, Save } from 'lucide-react'
-import { ActionIcon, Group, Stack, Text, Textarea } from '@mantine/core'
-import { useHover } from '@mantine/hooks'
-import { useHtmlData } from '@/app/contexts/HtmlDataContext'
-import type { Recipe } from '@/app/types'
+import { useState } from 'react';
+import { Edit, Save } from 'lucide-react';
+import { ActionIcon, Group, Stack, Text, Textarea } from '@mantine/core';
+import { useHover } from '@mantine/hooks';
+import { useHtmlData } from '@/app/contexts/HtmlDataContext';
+import type { Recipe } from '@/app/types';
 
 interface EditableTextProps {
-  dataKey: keyof Recipe
+  dataKey: keyof Recipe;
 }
 
-export default function EditableText ({ dataKey }: EditableTextProps) {
-  const { recipeData } = useHtmlData()
-  const [isEditing, setIsEditing] = useState(false)
-  const [currentValue, setCurrentValue] = useState(recipeData?.[dataKey] || '')
-  const { hovered, ref } = useHover()
+export default function EditableText({ dataKey }: EditableTextProps) {
+  const { recipeData } = useHtmlData();
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentValue, setCurrentValue] = useState(recipeData?.[dataKey] || '');
+  const { hovered, ref } = useHover();
 
-  if (!recipeData) return null
+  if (!recipeData) return null;
 
-  const handleEditClick = () => setIsEditing(true)
+  const handleEditClick = () => setIsEditing(true);
   const handleSave = () => {
-    setIsEditing(false)
+    setIsEditing(false);
     // Add save logic here if needed, e.g., update recipeData in a context or API
-  }
+  };
 
   return (
     <Stack>
@@ -31,11 +31,11 @@ export default function EditableText ({ dataKey }: EditableTextProps) {
         <div ref={ref}>
           <Group preventGrowOverflow>
             <Textarea
-              variant='unstyled'
-              radius='xs'
+              variant="unstyled"
+              radius="xs"
               autosize
               value={currentValue}
-              onChange={event => setCurrentValue(event.target.value)}
+              onChange={(event) => setCurrentValue(event.target.value)}
               style={{ flexGrow: '1' }}
               styles={{
                 input: {
@@ -43,12 +43,12 @@ export default function EditableText ({ dataKey }: EditableTextProps) {
                   lineHeight: 'inherit',
                   color: 'inherit',
                   border: 'inherit',
-                  padding: 'inherit'
-                }
+                  padding: 'inherit',
+                },
               }}
             />
             {hovered ? (
-              <ActionIcon onClick={handleSave} size='sm' radius='xl'>
+              <ActionIcon onClick={handleSave} size="sm" radius="xl">
                 <Save size={16} />
               </ActionIcon>
             ) : (
@@ -61,13 +61,18 @@ export default function EditableText ({ dataKey }: EditableTextProps) {
           <Group preventGrowOverflow>
             <Text
               style={{
-                flex: 1
+                flex: 1,
+                fontSize: 'inherit',
+                  lineHeight: 'inherit',
+                  fontWeight: 'inherit'
               }}
             >
-              {currentValue}
+              {dataKey === 'prepTime' || dataKey === 'cookTime'
+                ? `${currentValue} mins`
+                : currentValue}
             </Text>
             {hovered ? (
-              <ActionIcon onClick={handleEditClick} size='sm' radius='xl'>
+              <ActionIcon onClick={handleEditClick} size="sm" radius="xl">
                 <Edit size={16} />
               </ActionIcon>
             ) : (
@@ -77,5 +82,5 @@ export default function EditableText ({ dataKey }: EditableTextProps) {
         </div>
       )}
     </Stack>
-  )
+  );
 }
