@@ -27,3 +27,14 @@
       background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
     }
   }
+
+  .responsiveLink {
+    display: inline;
+  }
+  
+  @media (max-width: 576px) { /* Adjust breakpoint as needed */
+    .responsiveLink {
+      display: none;
+    }
+  }
+  

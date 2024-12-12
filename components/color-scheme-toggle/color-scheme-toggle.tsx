@@ -11,7 +11,7 @@ export function ColorSchemeToggle() {
   return (
     <>
       <ActionIcon
-        color="blue"
+        color="icon"
         variant="subtle"
         onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
         radius="xl"
@@ -20,13 +20,12 @@ export function ColorSchemeToggle() {
         <Sun size={18} />
       </ActionIcon>
       <ActionIcon
-        color="yellow"
+        color="icon"
         variant="subtle"
         onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
         radius="xl"
         size="lg"
-        lightHidden
-      >
+        lightHidden>
         <Moon size={18} />
       </ActionIcon>
     </>

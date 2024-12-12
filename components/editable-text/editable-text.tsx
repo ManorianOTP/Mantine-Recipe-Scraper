@@ -9,9 +9,10 @@ import type { Recipe } from '@/app/types';
 
 interface EditableTextProps {
   dataKey: keyof Recipe;
+  index?: number;
 }
 
-export default function EditableText({ dataKey }: EditableTextProps) {
+export default function EditableText({ dataKey, index }: EditableTextProps) {
   const { recipeData } = useHtmlData();
   const [isEditing, setIsEditing] = useState(false);
   const [currentValue, setCurrentValue] = useState(recipeData?.[dataKey] || '');
@@ -24,7 +25,6 @@ export default function EditableText({ dataKey }: EditableTextProps) {
     setIsEditing(false);
     // Add save logic here if needed, e.g., update recipeData in a context or API
   };
-
   return (
     <Stack>
       {isEditing ? (
@@ -34,7 +34,16 @@ export default function EditableText({ dataKey }: EditableTextProps) {
               variant="unstyled"
               radius="xs"
               autosize
-              value={currentValue}
+              value={(() => {
+                switch (dataKey) {
+                  case 'ingredients':
+                    return recipeData.ingredients[index!];
+                  case 'method':
+                    return recipeData.method[index!];
+                  default:
+                    return currentValue;
+                }
+              })()}
               onChange={(event) => setCurrentValue(event.target.value)}
               style={{ flexGrow: '1' }}
               styles={{
@@ -48,11 +57,11 @@ export default function EditableText({ dataKey }: EditableTextProps) {
               }}
             />
             {hovered ? (
-              <ActionIcon onClick={handleSave} size="sm" radius="xl">
+              <ActionIcon color="icon" onClick={handleSave} size="sm" radius="xl">
                 <Save size={16} />
               </ActionIcon>
             ) : (
-              <Save size={22} style={{ opacity: 0 }} /> // size 22 to be same size as actionicon wrapper
+              <Save color="icon" size={22} style={{ opacity: 0 }} /> // size 22 to be same size as actionicon wrapper
             )}
           </Group>
         </div>
@@ -63,20 +72,30 @@ export default function EditableText({ dataKey }: EditableTextProps) {
               style={{
                 flex: 1,
                 fontSize: 'inherit',
-                  lineHeight: 'inherit',
-                  fontWeight: 'inherit'
+                lineHeight: 'inherit',
+                fontWeight: 'inherit',
               }}
             >
-              {dataKey === 'prepTime' || dataKey === 'cookTime'
-                ? `${currentValue} mins`
-                : currentValue}
+              {(() => {
+                switch (dataKey) {
+                  case 'prepTime':
+                  case 'cookTime':
+                    return `${currentValue} mins`;
+                  case 'ingredients':
+                    return recipeData.ingredients[index!];
+                  case 'method':
+                    return recipeData.method[index!];
+                  default:
+                    return currentValue;
+                }
+              })()}
             </Text>
             {hovered ? (
-              <ActionIcon onClick={handleEditClick} size="sm" radius="xl">
+              <ActionIcon color="icon" onClick={handleEditClick} size="sm" radius="xl">
                 <Edit size={16} />
               </ActionIcon>
             ) : (
-              <Edit size={22} style={{ opacity: 0 }} /> // size 22 to be same size as actionicon wrapper
+              <Edit color="icon" size={22} style={{ opacity: 0 }} /> // size 22 to be same size as actionicon wrapper
             )}
           </Group>
         </div>

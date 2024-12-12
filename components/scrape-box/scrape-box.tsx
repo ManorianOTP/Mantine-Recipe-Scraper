@@ -38,16 +38,17 @@ export default function ScrapeBox() {
     <>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextInput
+          color="icon"
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Add a new recipe"
           rightSection={
             <>
-              <ActionIcon color="blue" type="submit" variant="subtle" radius="xl" darkHidden>
+              <ActionIcon color="icon" type="submit" variant="subtle" radius="xl" darkHidden>
                 {isLoading ? <Loader size="xs" /> : <IconSearch size={16} strokeWidth={1.5} />}
               </ActionIcon>
-              <ActionIcon color="yellow" type="submit" variant="subtle" radius="xl" lightHidden>
+              <ActionIcon color="icon" type="submit" variant="subtle" radius="xl" lightHidden>
                 {isLoading ? <Loader size="xs" /> : <IconSearch size={16} strokeWidth={1.5} />}
               </ActionIcon>
             </>

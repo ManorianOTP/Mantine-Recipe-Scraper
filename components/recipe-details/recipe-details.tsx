@@ -61,9 +61,9 @@ export default function RecipeDetails() {
       <section>
         <Title order={2}>Ingredients</Title>
         <div style={{ marginTop: '0.5rem' }}>
-          {recipeData.ingredients.map((ingredient, index) => (
+          {recipeData.ingredients.map((_ingredient, index) => (
             <div key={index}>
-              <Checkbox label={ingredient} style={{ padding: '2px' }} />
+              <Checkbox color="icon" label={<EditableText dataKey="ingredients" index={index} />} style={{ padding: '2px' }} />
             </div>
           ))}
         </div>
@@ -74,10 +74,10 @@ export default function RecipeDetails() {
       <section>
         <Title order={2}>Method</Title>
         <div style={{ marginTop: '0.5rem' }}>
-          {recipeData.method.map((step, index) => (
+          {recipeData.method.map((_ingredient, index) => (
             <div key={index} style={{ marginBottom: '1rem' }}>
               <Text>Step {index + 1}</Text>
-              <Text>{step}</Text>
+              <EditableText dataKey="method" index={index} />
             </div>
           ))}
         </div>
