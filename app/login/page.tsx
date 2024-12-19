@@ -8,7 +8,6 @@ import {
   Divider,
   Group,
   Paper,
-  PaperProps,
   PasswordInput,
   Stack,
   Text,
@@ -19,7 +18,7 @@ import { upperFirst, useToggle } from '@mantine/hooks'
 import { GoogleButton } from './google-button'
 import { login, signup } from './actions'
 
-export default function LoginPage (props: PaperProps) {
+export default function LoginPage () {
   const [type, toggle] = useToggle(['login', 'register'])
   const handleSubmit = type === 'register' ? signup : login
   const form = useForm({
@@ -49,7 +48,7 @@ export default function LoginPage (props: PaperProps) {
           height: 'calc(100vh - 60px)'
         }}
       >
-        <Paper radius='md' p='xl' withBorder {...props}>
+        <Paper radius='md' p='xl' withBorder>
           <Text size='lg' fw={500}>
             Welcome to FlavorSync, {type} with
           </Text>
