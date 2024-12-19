@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import * as fs from 'fs';
 import * as path from 'path';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Recipe } from '@/app/types';
 
-export async function GET(req: { url: string | URL }) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const recipeUrl = searchParams.get('url');
 
