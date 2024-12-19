@@ -9,28 +9,35 @@ const meta = {
 export default meta;
 
 const mockData = {
-  title: 'Easy chocolate fudge cake',
-  ingredients: [
-    '150ml sunflower oil plus extra for the tin',
-    '175g self-raising flour',
-    '2 tbsp cocoa powder',
-    '1 tsp bicarbonate of soda',
-    '150g caster sugar',
-    '2 tbsp golden syrup',
-    '2 large eggs lightly beaten',
-    '150ml semi-skimmed milk',
-    '100g unsalted butter',
-    '225g icing sugar',
-    '40g cocoa powder',
-    '2½ tbsp milk (a little more if needed)',
+  "title": "Classic Victoria sandwich recipe",
+  "ingredients": [
+      "200g caster sugar",
+      "200g softened butter",
+      "4 eggs beaten",
+      "200g self-raising flour",
+      "1 tsp  baking powder",
+      "2 tbsp milk",
+      "100g butter softened",
+      "140g icing sugar sifted",
+      "drop vanilla extract (optional)",
+      "half a 340g jar good-quality strawberry jam",
+      "icing sugar to decorate"
   ],
-  method: [
-    'Heat the oven to 180C/160C fan/gas 4. Oil and line the base of two 18cm sandwich tins. Sieve the flour, cocoa powder and bicarbonate of soda into a bowl. Add the caster sugar and mix well.',
-    'Make a well in the centre and add the golden syrup, eggs, sunflower oil and milk. Beat well with an electric whisk until smooth.',
-    'Pour the mixture into the two tins and bake for 25-30 mins until risen and firm to the touch. Remove from oven, leave to cool for 10 mins before turning out onto a cooling rack.',
-    'To make the icing, beat the unsalted butter in a bowl until soft. Gradually sieve and beat in the icing sugar and cocoa powder, then add enough of the milk to make the icing fluffy and spreadable.',
-    'Sandwich the two cakes together with the butter icing and cover the sides and the top of the cake with more icing.',
+  "method": [
+      "Heat oven to 190C/fan 170C/gas 5. Butter two 20cm sandwich tins and line with non-stick baking paper.",
+      "In a large bowl, beat 200g caster sugar, 200g softened butter, 4 beaten eggs, 200g self-raising flour, 1 tsp baking powder and 2 tbsp milk together until you have a smooth, soft batter.",
+      "Divide the mixture between the tins, smooth the surface with a spatula or the back of a spoon.",
+      "Bake for about 20 mins until golden and the cake springs back when pressed.",
+      "Turn onto a cooling rack and leave to cool completely.",
+      "To make the filling, beat the 100g softened butter until smooth and creamy, then gradually beat in 140g sifted icing sugar and a drop of vanilla extract (if you’re using it).",
+      "Spread the buttercream over the bottom of one of the sponges. Top it with 170g strawberry jam and sandwich the second sponge on top.",
+      "Dust with a little icing sugar before serving. Keep in an airtight container and eat within 2 days."
   ],
+  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque aut explicabo exercitationem quis perferendis suscipit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque aut explicabo exercitationem quis perferendis suscipit?",
+  "image": "/",
+  "prepTime": "40",
+  "cookTime": "20",
+  "servings": "8"
 };
 
 type Story = StoryObj<typeof meta>;
