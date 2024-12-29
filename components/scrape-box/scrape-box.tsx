@@ -5,14 +5,16 @@ import { IconSearch } from '@tabler/icons-react';
 import { ActionIcon, Alert, Loader, TextInput, useMantineColorScheme } from '@mantine/core';
 import { useMediaQuery, useMounted } from '@mantine/hooks';
 import { useHtmlData } from '@/app/contexts/HtmlDataContext';
+import { useRouter } from 'next/navigation';
 import classes from './scrape-box.module.css';
 
 export default function ScrapeBox() {
+  const router = useRouter();
   const [url, setUrl] = useState('');
   const { setRecipeData } = useHtmlData();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
@@ -25,6 +27,7 @@ export default function ScrapeBox() {
 
       const data = await response.json();
       setRecipeData(data);
+      router.push('/recipe');
     } catch (errorMsg) {
       // used to be error
       setError('Error fetching recipe. Please check the URL and try again.');

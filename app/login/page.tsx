@@ -1,6 +1,5 @@
 'use client'
 
-import HeaderBar from '@/components/header-bar/header-bar'
 import {
   Anchor,
   Button,
@@ -39,7 +38,6 @@ export default function LoginPage () {
 
   return (
     <>
-      <HeaderBar />
       <div
         style={{
           display: 'flex',

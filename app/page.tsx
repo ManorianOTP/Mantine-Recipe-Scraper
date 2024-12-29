@@ -1,6 +1,5 @@
 'use client'
 
-import HeaderBar from '@/components/header-bar/header-bar'
 import RecipeCard from '@/components/recipe-card/recipe-card'
 import { Grid } from '@mantine/core'
 
@@ -8,7 +7,6 @@ export default function HomePage () {
   const numbers = Array.from({ length: 15 }, (_, index) => index + 1)
   return (
     <>
-      <HeaderBar />
       <Grid m={'5px'}>
         {numbers.map((number, index) => (
           <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3, xl: 2, xxl: 1.5 }}>
