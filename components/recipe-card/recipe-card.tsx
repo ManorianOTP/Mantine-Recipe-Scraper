@@ -7,7 +7,7 @@ export default function RecipeCard ({ recipe }: { recipe: Recipe }) {
   return (
     <Card shadow='sm' padding='lg' radius='md' withBorder>
       <Card.Section>
-        <Image src={recipe.image} height={160} alt='Norway' />
+        <Image src={recipe.image} height={160} alt={recipe.title + 'Image'} />
       </Card.Section>
 
       <Group justify='space-between' mt='md'>
