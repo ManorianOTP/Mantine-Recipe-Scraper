@@ -1,9 +1,9 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function updateSession(request: NextRequest) {
+export async function updateSession (request: NextRequest) {
   let supabaseResponse = NextResponse.next({
-    request,
+    request
   })
 
   const supabase = createServerClient(
@@ -11,19 +11,21 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
+        getAll () {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+        setAll (cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            request.cookies.set(name, value)
+          )
           supabaseResponse = NextResponse.next({
-            request,
+            request
           })
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           )
-        },
-      },
+        }
+      }
     }
   )
 
@@ -34,32 +36,35 @@ export async function updateSession(request: NextRequest) {
   // IMPORTANT: DO NOT REMOVE auth.getUser()
 
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser()
 
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
+    !request.nextUrl.pathname.startsWith('/verify')
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
+  } else if (user && request.nextUrl.pathname.startsWith('/verify')) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
+    return NextResponse.redirect(url)
   }
+    // IMPORTANT: You *must* return the supabaseResponse object as it is.
+    // If you're creating a new response object with NextResponse.next() make sure to:
+    // 1. Pass the request in it, like so:
+    //    const myNewResponse = NextResponse.next({ request })
+    // 2. Copy over the cookies, like so:
+    //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
+    // 3. Change the myNewResponse object to fit your needs, but avoid changing
+    //    the cookies!
+    // 4. Finally:
+    //    return myNewResponse
+    // If this is not done, you may be causing the browser and server to go out
+    // of sync and terminate the user's session prematurely!
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
-  // If you're creating a new response object with NextResponse.next() make sure to:
-  // 1. Pass the request in it, like so:
-  //    const myNewResponse = NextResponse.next({ request })
-  // 2. Copy over the cookies, like so:
-  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-  // 3. Change the myNewResponse object to fit your needs, but avoid changing
-  //    the cookies!
-  // 4. Finally:
-  //    return myNewResponse
-  // If this is not done, you may be causing the browser and server to go out
-  // of sync and terminate the user's session prematurely!
-
-  return supabaseResponse
+    return supabaseResponse
 }
