@@ -38,7 +38,7 @@ export default function HomePage () {
     <>
       <Grid m={'5px'}>
         {data.map((item, index) => (
-          <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3, xl: 2, xxl: 1.5 }}>
+          <Grid.Col key={index} span={{ base: 12, sm: 6, md: 4, lg: 3, xl: 2, xxl: 1.5 }}>
             <RecipeCard
               recipe={item}
             />
