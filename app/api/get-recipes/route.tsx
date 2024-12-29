@@ -1,12 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
-import { Recipe } from '@/app/types'
 
-type RecipeRequestBody = {
-  recipes: Recipe[]
-}
-
-export async function POST (request: NextRequest) {
+export async function GET (request: NextRequest) {
   try {
     const supabase = await createClient()
 
@@ -22,29 +17,17 @@ export async function POST (request: NextRequest) {
       )
     }
 
-    const { recipes } = (await request.json()) as RecipeRequestBody
-
-    const { data, error } = await supabase.rpc('upsert_user_recipe', {
-      p_user_id: user.id,
-      p_recipe: recipes[0]
-    })
+    const { data, error } = await supabase
+      .from('userRecipes')
+      .select('*')
+      .eq('user_id', user.id)
 
     if (error) {
-      console.error('Error upserting recipe:', error)
-      // Handle the error as needed
-    } else {
-      console.log('Recipe upserted successfully')
-    }
-
-
-    if (error) {
+      console.error('Error fetching recipes:', error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json(
-      { message: 'Data inserted successfully' },
-      { status: 200 }
-    )
+    return NextResponse.json(data, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },
