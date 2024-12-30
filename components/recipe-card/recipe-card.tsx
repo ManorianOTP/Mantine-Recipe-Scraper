@@ -1,5 +1,3 @@
-'use client'
-
 import { Card, Image, Text, Badge, Button, Group, Rating } from '@mantine/core'
 import { Recipe } from '@/app/types'
 import { useHtmlData } from '@/app/contexts/HtmlDataContext'
