@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, ReactNode, useContext, useState } from 'react';
-import { Recipe } from '../types'; // Adjust the path if necessary
+import React, { createContext, ReactNode, useContext, useState, useEffect } from 'react';
+import { Recipe } from '../types';
 
 interface HtmlDataContextType {
   recipeData: Recipe | null;
@@ -23,7 +23,21 @@ interface HtmlDataProviderProps {
 }
 
 export const HtmlDataProvider: React.FC<HtmlDataProviderProps> = ({ children }) => {
-  const [recipeData, setRecipeData] = useState<Recipe | null>(null);
+  // Try to get the initial data from sessionStorage (if any)
+  const [recipeData, setRecipeData] = useState<Recipe | null>(() => {
+    if (typeof window !== 'undefined') {
+      const savedData = sessionStorage.getItem('recipeData');
+      return savedData ? JSON.parse(savedData) : null;
+    }
+    return null;
+  });
+
+  // Persist the recipeData to sessionStorage whenever it changes
+  useEffect(() => {
+    if (recipeData !== null) {
+      sessionStorage.setItem('recipeData', JSON.stringify(recipeData));
+    }
+  }, [recipeData]);
 
   return (
     <HtmlDataContext.Provider value={{ recipeData, setRecipeData }}>
