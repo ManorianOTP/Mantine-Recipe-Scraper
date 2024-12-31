@@ -3,7 +3,7 @@ import { Recipe } from '@/app/types'
 import { useHtmlData } from '@/app/contexts/HtmlDataContext'
 import { useRouter } from 'next/navigation';
 
-export default function RecipeCard ({ recipe }: { recipe: Recipe }) {
+export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: number}) {
   const { setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
   return (
@@ -22,8 +22,8 @@ export default function RecipeCard ({ recipe }: { recipe: Recipe }) {
       <Text size='sm' c='dimmed' lineClamp={3}>
         {recipe.description}
       </Text>
-
-      <Button color='icon' fullWidth mt='md' radius='md' onClick={() => {setRecipeData(recipe); setIndex(1); router.push('/recipe');}}>
+      {/* Indexes from 1 for some reason */}
+      <Button color='icon' fullWidth mt='md' radius='md' onClick={() => {setRecipeData(recipe); setIndex(index+1); router.push('/recipe');}}>
         More Details
       </Button>
     </Card>
