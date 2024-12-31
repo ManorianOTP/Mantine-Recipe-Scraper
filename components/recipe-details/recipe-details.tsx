@@ -7,7 +7,7 @@ import { useHtmlData } from '@/app/contexts/HtmlDataContext';
 import EditableText from '@/components/editable-text/editable-text';
 
 export default function RecipeDetails() {
-  const { recipeData } = useHtmlData();
+  const { recipeData, index } = useHtmlData();
 
   if (!recipeData) return null;
 
@@ -40,7 +40,7 @@ export default function RecipeDetails() {
                       headers: {
                         'Content-Type': 'application/json',
                       },
-                      body: JSON.stringify({ recipes }),
+                      body: JSON.stringify({ recipes, index }),
                     });
           
                     if (!response.ok) {

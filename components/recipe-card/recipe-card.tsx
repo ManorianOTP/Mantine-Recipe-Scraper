@@ -4,7 +4,7 @@ import { useHtmlData } from '@/app/contexts/HtmlDataContext'
 import { useRouter } from 'next/navigation';
 
 export default function RecipeCard ({ recipe }: { recipe: Recipe }) {
-  const { setRecipeData } = useHtmlData();
+  const { setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
   return (
     <Card shadow='sm' padding='lg' radius='md' withBorder>
@@ -23,7 +23,7 @@ export default function RecipeCard ({ recipe }: { recipe: Recipe }) {
         {recipe.description}
       </Text>
 
-      <Button color='icon' fullWidth mt='md' radius='md' onClick={() => {setRecipeData(recipe); router.push('/recipe');}}>
+      <Button color='icon' fullWidth mt='md' radius='md' onClick={() => {setRecipeData(recipe); setIndex(1); router.push('/recipe');}}>
         More Details
       </Button>
     </Card>

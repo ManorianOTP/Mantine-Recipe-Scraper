@@ -6,6 +6,8 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import { theme } from '../theme'
 import { HtmlDataProvider } from './contexts/HtmlDataContext'
 import HeaderBar from '@/components/header-bar/header-bar'
+import { Notifications } from '@mantine/notifications'
+import '@mantine/notifications/styles.css';
 
 export const metadata: Metadata = {
   title: 'Recipe Scraper',
@@ -27,6 +29,7 @@ export default function RootLayout ({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
+          <Notifications />
           <HtmlDataProvider>
             <HeaderBar />
             {children}

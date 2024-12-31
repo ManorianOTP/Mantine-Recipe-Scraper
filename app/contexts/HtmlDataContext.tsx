@@ -6,6 +6,8 @@ import { Recipe } from '../types';
 interface HtmlDataContextType {
   recipeData: Recipe | null;
   setRecipeData: React.Dispatch<React.SetStateAction<Recipe | null>>;
+  index: number | null;
+  setIndex: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const HtmlDataContext = createContext<HtmlDataContextType | undefined>(undefined);
@@ -23,11 +25,19 @@ interface HtmlDataProviderProps {
 }
 
 export const HtmlDataProvider: React.FC<HtmlDataProviderProps> = ({ children }) => {
-  // Try to get the initial data from sessionStorage (if any)
+  // Try to get the initial data and index from sessionStorage (if any)
   const [recipeData, setRecipeData] = useState<Recipe | null>(() => {
     if (typeof window !== 'undefined') {
       const savedData = sessionStorage.getItem('recipeData');
       return savedData ? JSON.parse(savedData) : null;
+    }
+    return null;
+  });
+
+  const [index, setIndex] = useState<number | null>(() => {
+    if (typeof window !== 'undefined') {
+      const savedIndex = sessionStorage.getItem('recipeIndex');
+      return savedIndex ? parseInt(savedIndex, 10) : null;
     }
     return null;
   });
@@ -39,8 +49,15 @@ export const HtmlDataProvider: React.FC<HtmlDataProviderProps> = ({ children }) 
     }
   }, [recipeData]);
 
+  // Persist the index to sessionStorage whenever it changes
+  useEffect(() => {
+    if (index !== null) {
+      sessionStorage.setItem('recipeIndex', index.toString());
+    }
+  }, [index]);
+
   return (
-    <HtmlDataContext.Provider value={{ recipeData, setRecipeData }}>
+    <HtmlDataContext.Provider value={{ recipeData, setRecipeData, index, setIndex }}>
       {children}
     </HtmlDataContext.Provider>
   );

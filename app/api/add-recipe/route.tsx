@@ -4,9 +4,10 @@ import { Recipe } from '@/app/types'
 
 type RecipeRequestBody = {
   recipes: Recipe[]
+  index?: number  // Optional index field to support overwriting at a specific index
 }
 
-export async function POST (request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
 
@@ -22,30 +23,27 @@ export async function POST (request: NextRequest) {
       )
     }
 
-    const { recipes } = (await request.json()) as RecipeRequestBody
+    const { recipes, index } = (await request.json()) as RecipeRequestBody
 
     const { data, error } = await supabase.rpc('upsert_user_recipe', {
       p_user_id: user.id,
-      p_recipe: recipes[0]
+      p_recipe: recipes[0],  // Assuming you want to use the first recipe
+      p_index: index  // Pass the index if provided, otherwise it will be NULL
     })
 
     if (error) {
       console.error('Error upserting recipe:', error)
-      // Handle the error as needed
-    } else {
-      console.log('Recipe upserted successfully')
-    }
-
-
-    if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    console.log('Recipe upserted successfully')
 
     return NextResponse.json(
       { message: 'Data inserted successfully' },
       { status: 200 }
     )
   } catch (error) {
+    console.error('Internal server error:', error)
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
