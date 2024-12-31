@@ -24,13 +24,16 @@ export default function RecipeDetails() {
         />
         <Stack justify="space-between" style={{ flexGrow: '1', paddingLeft: '2px' }}>
           <div>
-            <Group>
-              <Title order={1} style={{ marginBottom: '2px' }}>
+            <Group justify="space-between" align='flex-start'>
+              <Title order={1} flex={1} mb={2}>
                 <EditableText dataKey="title" />
               </Title>
               <Button
                 leftSection={<Save />}
                 color="icon"
+                maw={101}
+                mr={5}
+                mt={10}
                 onClick={async () => {
                   const recipes = [recipeData];
                   
@@ -61,11 +64,9 @@ export default function RecipeDetails() {
             </Group>
             <Rating fractions={2} style={{ marginBottom: '2px' }} />
             <Text>Category</Text>
-            {/* <Text>{recipeData.description}</Text> */}
             <EditableText dataKey="description" />
           </div>
           <div>
-            {/* <div style={{ display: 'flex', gap: '0.5rem' }}> */}
             <Group preventGrowOverflow style={{ whiteSpace: 'pre' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Clock size={18} />
@@ -84,7 +85,6 @@ export default function RecipeDetails() {
                 <EditableText dataKey="servings" />
               </div>
             </Group>
-            {/* </div> */}
           </div>
         </Stack>
       </Flex>
