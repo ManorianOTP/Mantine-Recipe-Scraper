@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Edit, Save } from 'lucide-react'
 import { ActionIcon, Group, Stack, Text } from '@mantine/core'
 import { useHover } from '@mantine/hooks'
@@ -13,44 +13,51 @@ interface EditableTextProps {
 }
 
 export default function EditableText ({ dataKey, index }: EditableTextProps) {
-  const { recipeData } = useHtmlData()
+  const { recipeData, updateRecipeProperty } = useHtmlData()
   const [isEditing, setIsEditing] = useState(false)
-  const [currentValue, setCurrentValue] = useState(recipeData?.[dataKey] || '')
   const { hovered, ref } = useHover()
+  const editableRef = useRef<HTMLDivElement>(null) // Create a ref for the contentEditable element
 
   if (!recipeData) return null
 
   const handleEditClick = () => setIsEditing(true)
   const handleSave = () => {
     setIsEditing(false)
-    // Add save logic here if needed, e.g., update recipeData in a context or API
-  }
+    const content = editableRef.current?.textContent || '' // Use the ref to get the text content
 
-  const displayValue = (() => {
     switch (dataKey) {
       case 'ingredients':
-        return recipeData.ingredients[index!]
-      case 'method':
-        return recipeData.method[index!]
+      case 'method': {
+        const temp = { ...recipeData }
+        temp[dataKey] = [...temp[dataKey]]
+        temp[dataKey][index!] = content
+        updateRecipeProperty(dataKey, temp[dataKey])
+        break
+      }
       default:
-        return currentValue
+        updateRecipeProperty(dataKey, content)
     }
-  })()
+  }
+
+  const displayValue = () => {
+    switch (dataKey) {
+      case 'ingredients':
+      case 'method':
+        return recipeData[dataKey][index!]
+      default:
+        return recipeData[dataKey]
+    }
+  }
 
   return (
     <Stack>
       <div ref={ref}>
-        <Group justify='space-between' gap="2px">
+        <Group justify='space-between' gap='2px'>
           {isEditing ? (
             <>
               <Text
                 contentEditable
                 suppressContentEditableWarning
-                onInput={event =>
-                  setCurrentValue(
-                    (event.target as HTMLElement).textContent || ''
-                  )
-                }
                 style={{
                   flex: 1,
                   fontSize: 'inherit',
@@ -59,8 +66,9 @@ export default function EditableText ({ dataKey, index }: EditableTextProps) {
                   border: '1px solid #ccc',
                   cursor: 'text'
                 }}
+                ref={editableRef} // Attach the ref to the contentEditable element
               >
-                {displayValue}
+                {displayValue()}
               </Text>
               {(dataKey === 'prepTime' || dataKey === 'cookTime') && (
                 <Text
@@ -85,7 +93,7 @@ export default function EditableText ({ dataKey, index }: EditableTextProps) {
                   padding: '1px'
                 }}
               >
-                {displayValue}
+                {displayValue()}
               </Text>
               {(dataKey === 'prepTime' || dataKey === 'cookTime') && (
                 <Text
@@ -109,10 +117,9 @@ export default function EditableText ({ dataKey, index }: EditableTextProps) {
               ml={5}
             >
               {isEditing ? <Save size={16} /> : <Edit size={16} />}
-              {/* size 22 to be same size as actionicon wrapper */}
             </ActionIcon>
           ) : (
-            <Edit style={{marginLeft: '5px'}} size={22} opacity={0} />
+            <Edit style={{ marginLeft: '5px' }} size={22} opacity={0} />
           )}
         </Group>
       </div>

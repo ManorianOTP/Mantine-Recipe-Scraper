@@ -8,6 +8,7 @@ interface HtmlDataContextType {
   setRecipeData: React.Dispatch<React.SetStateAction<Recipe | null>>;
   index: number | null;
   setIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  updateRecipeProperty: (property: keyof Recipe, value: any) => void;
 }
 
 const HtmlDataContext = createContext<HtmlDataContextType | undefined>(undefined);
@@ -42,6 +43,15 @@ export const HtmlDataProvider: React.FC<HtmlDataProviderProps> = ({ children }) 
     return null;
   });
 
+  const updateRecipeProperty = (property: keyof Recipe, value: any) => {
+    setRecipeData((prevRecipeData) => {
+      if (prevRecipeData) {
+        return { ...prevRecipeData, [property]: value };
+      }
+      return null;
+    });
+  };
+
   // Persist the recipeData to sessionStorage whenever it changes
   useEffect(() => {
     if (recipeData !== null) {
@@ -57,7 +67,7 @@ export const HtmlDataProvider: React.FC<HtmlDataProviderProps> = ({ children }) 
   }, [index]);
 
   return (
-    <HtmlDataContext.Provider value={{ recipeData, setRecipeData, index, setIndex }}>
+    <HtmlDataContext.Provider value={{ recipeData, setRecipeData, index, setIndex, updateRecipeProperty }}>
       {children}
     </HtmlDataContext.Provider>
   );
