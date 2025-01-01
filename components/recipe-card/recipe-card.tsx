@@ -8,7 +8,7 @@ export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: 
   const { recipeData, setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
   if (!recipeData) return null
-  const [signedUrl, setSignedUrl] = useState(null)
+  const [signedUrl, setSignedUrl] = useState<string | null>("-1")
     useEffect(() => {
       if (recipeData.image) {
         const fetchSignedUrl = async () => {
@@ -21,9 +21,11 @@ export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: 
             if (response.ok) {
               setSignedUrl(data.signedUrl)
             } else {
+              setSignedUrl(null)
               console.error('Error fetching signed URL:', data.error)
             }
           } catch (error) {
+            setSignedUrl(null)
             console.error('Error fetching signed URL:', error)
           }
         }
@@ -32,13 +34,13 @@ export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: 
       }
     }, [recipeData.image])
   
-    if (!signedUrl) return null
+    if (signedUrl === "-1") return null
 
     
   return (
     <Card shadow='sm' padding='lg' radius='md' withBorder>
       <Card.Section>
-        <Image src={signedUrl} height={160} alt={recipe.title + ' image'} />
+        <Image src={signedUrl} height={160} alt={recipe.title + ' image'} fallbackSrc="https://placehold.co/600x400?text=Placeholder"/>
       </Card.Section>
 
       <Group justify='space-between' mt='md'>

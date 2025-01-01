@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import { Clock, Save, Users } from 'lucide-react'
 import {
   Button,
+  Image,
   Checkbox,
   Divider,
   Flex,
@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react'
 export default function RecipeDetails () {
   const { recipeData, index, setIndex } = useHtmlData()
   if (!recipeData) return null
-  const [signedUrl, setSignedUrl] = useState(null)
+  const [signedUrl, setSignedUrl] = useState<string | null>("-1")
   const [recipes, setRecipes] = useState([])
 
   useEffect(() => {
@@ -41,8 +41,10 @@ export default function RecipeDetails () {
 
         const data = await response.json()
         setRecipes(data[0].recipes || [])
+        setSignedUrl(null)
         console.log('Success:', data.message)
       } catch (error) {
+        setSignedUrl(null)
         console.error('Request failed:', error)
       }
     }
@@ -72,7 +74,8 @@ export default function RecipeDetails () {
     }
   }, [recipeData.image])
 
-  if (!signedUrl) return null
+  if (signedUrl === "-1") return null
+
   return (
     <>
       <Flex
@@ -85,7 +88,7 @@ export default function RecipeDetails () {
           src={signedUrl}
           alt='Recipe Image'
           style={{ objectFit: 'cover' }}
-          priority={true}
+          fallbackSrc="https://placehold.co/600x400?text=Placeholder"
         />
         <Stack
           justify='space-between'
