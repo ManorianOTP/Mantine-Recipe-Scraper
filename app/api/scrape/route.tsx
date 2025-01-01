@@ -40,13 +40,14 @@ export async function GET (req: NextRequest) {
       $('.post-header__image-container img.image__img').attr('src') || ''
 
     let webpImageName = ''
+    let userId = ''
 
     if (imageUrl) {
       // Sanitize the image filename to remove query params and add .webp extension
       const sanitizedUrl = imageUrl.split('?')[0] // Get the base URL without query parameters
       const baseName = path.basename(sanitizedUrl, path.extname(sanitizedUrl)) // Get the base name without extension
-      const webpImageName = `${baseName}.webp`
-      const {
+      webpImageName = `${baseName}.webp`
+      let {
         data: { user },
         error: userError
       } = await supabase.auth.getUser()
@@ -57,7 +58,7 @@ export async function GET (req: NextRequest) {
           { status: 401 }
         )
       }
-
+      userId = user.id
       try {
         // Download the image as a buffer
         const response = await axios({
@@ -70,7 +71,7 @@ export async function GET (req: NextRequest) {
 
         await supabase.storage
           .from('temporary-recipe-images')
-          .upload(`${user.id}/${webpImageName}`, webpBuffer, {
+          .upload(`${userId}/${webpImageName}`, webpBuffer, {
             contentType: 'image/webp'
           })
         console.log(`Image converted to WebP and saved at: ${imageUrl}`)
@@ -104,7 +105,7 @@ export async function GET (req: NextRequest) {
       ingredients,
       method,
       description,
-      image: `/temporary-recipe-images/${webpImageName}`, // Local path to the saved image
+      image: `/temporary-recipe-images/${userId}/${webpImageName}`, // Local path to the saved image
       prepTime,
       cookTime,
       servings

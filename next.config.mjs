@@ -6,6 +6,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 export default withBundleAnalyzer({
   reactStrictMode: false,
+  images: {
+    domains: ['llqeukrsokawuzoblxdp.supabase.co'],
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

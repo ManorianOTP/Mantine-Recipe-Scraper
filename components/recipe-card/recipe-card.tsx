@@ -2,14 +2,43 @@ import { Card, Image, Text, Badge, Button, Group, Rating } from '@mantine/core'
 import { Recipe } from '@/app/types'
 import { useHtmlData } from '@/app/contexts/HtmlDataContext'
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: number}) {
-  const { setRecipeData, setIndex } = useHtmlData();
+  const { recipeData, setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
+  if (!recipeData) return null
+  const [signedUrl, setSignedUrl] = useState(null)
+    useEffect(() => {
+      if (recipeData.image) {
+        const fetchSignedUrl = async () => {
+          try {
+            const response = await fetch(
+              `/api/signed-url?src=${encodeURIComponent(recipe.image)}`
+            )
+            const data = await response.json()
+  
+            if (response.ok) {
+              setSignedUrl(data.signedUrl)
+            } else {
+              console.error('Error fetching signed URL:', data.error)
+            }
+          } catch (error) {
+            console.error('Error fetching signed URL:', error)
+          }
+        }
+  
+        fetchSignedUrl()
+      }
+    }, [recipeData.image])
+  
+    if (!signedUrl) return null
+
+    
   return (
     <Card shadow='sm' padding='lg' radius='md' withBorder>
       <Card.Section>
-        <Image src={recipe.image} height={160} alt={recipe.title + ' image'} />
+        <Image src={signedUrl} height={160} alt={recipe.title + ' image'} />
       </Card.Section>
 
       <Group justify='space-between' mt='md'>

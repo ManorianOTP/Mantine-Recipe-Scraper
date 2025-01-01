@@ -15,12 +15,36 @@ import {
 } from '@mantine/core'
 import { useHtmlData } from '@/app/contexts/HtmlDataContext'
 import EditableText from '@/components/editable-text/editable-text'
+import { useEffect, useState } from 'react'
 
 export default function RecipeDetails () {
   const { recipeData, index } = useHtmlData()
-
   if (!recipeData) return null
+  const [signedUrl, setSignedUrl] = useState(null)
+  useEffect(() => {
+    if (recipeData.image) {
+      const fetchSignedUrl = async () => {
+        try {
+          const response = await fetch(
+            `/api/signed-url?src=${encodeURIComponent(recipeData.image)}`
+          )
+          const data = await response.json()
 
+          if (response.ok) {
+            setSignedUrl(data.signedUrl)
+          } else {
+            console.error('Error fetching signed URL:', data.error)
+          }
+        } catch (error) {
+          console.error('Error fetching signed URL:', error)
+        }
+      }
+
+      fetchSignedUrl()
+    }
+  }, [recipeData.image])
+
+  if (!signedUrl) return null
   return (
     <>
       <Flex
@@ -30,10 +54,10 @@ export default function RecipeDetails () {
         <Image
           width={350}
           height={350}
-          src={recipeData.image}
+          src={signedUrl}
           alt='Recipe Image'
           style={{ objectFit: 'cover' }}
-          priority
+          priority={true}
         />
         <Stack
           justify='space-between'
