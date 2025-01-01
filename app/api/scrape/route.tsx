@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import * as fs from 'fs';
+import sharp from 'sharp';
 import * as path from 'path';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
@@ -36,25 +36,29 @@ export async function GET(req: NextRequest) {
     let imageUrl = $('.post-header__image-container img.image__img').attr('src') || '';
 
     if (imageUrl) {
-      // Sanitize the image filename to remove query params
-      imageUrl = imageUrl.split('?')[0]; // Get the base URL without query parameters
-      const imageName = path.basename(imageUrl);
-      const imagePath = path.join(process.cwd(), 'public', imageName);
-
-      // Download the image
-      const response = await axios({
-        url: imageUrl,
-        method: 'GET',
-        responseType: 'stream',
-      });
-
-      const writer = fs.createWriteStream(imagePath);
-
-      await new Promise<void>((resolve, reject) => {
-        response.data.pipe(writer);
-        writer.on('finish', resolve);
-        writer.on('error', reject);
-      });
+      // Sanitize the image filename to remove query params and add .webp extension
+      const sanitizedUrl = imageUrl.split('?')[0]; // Get the base URL without query parameters
+      const baseName = path.basename(sanitizedUrl, path.extname(sanitizedUrl)); // Get the base name without extension
+      const webpImageName = `${baseName}.webp`;
+      imageUrl = path.join(process.cwd(), 'public', webpImageName);
+  
+      try {
+        // Download the image as a buffer
+        const response = await axios({
+          url: sanitizedUrl,
+          method: 'GET',
+          responseType: 'arraybuffer',
+        });
+  
+        // Convert the image buffer to WebP and save it
+        await sharp(response.data)
+          .webp()
+          .toFile(imageUrl);
+  
+        console.log(`Image converted to WebP and saved at: ${imageUrl}`);
+      } catch (error) {
+        console.error('Error downloading or converting image:', error);
+      }
     }
 
     const prepTime = $('.recipe__cook-and-prep .list-item')
