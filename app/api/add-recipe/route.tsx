@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 import { Recipe } from '@/app/types'
 
 type RecipeRequestBody = {
-  recipes: Recipe[]
+  recipe: Recipe[]
   index?: number // Optional index field to support overwriting at a specific index
 }
 
@@ -23,10 +23,10 @@ export async function POST (request: NextRequest) {
       )
     }
 
-    let { recipes, index } = (await request.json()) as RecipeRequestBody
+    let { recipe, index } = (await request.json()) as RecipeRequestBody
 
     if (!index) {
-      let src = recipes[0].image.slice(1) // Assuming 'src' is the path like 'bucket-name/path/to/file.jpg'
+      let src = recipe[0].image.slice(1) // Assuming 'src' is the path like 'bucket-name/path/to/file.jpg'
       const [bucketName, ...filePathParts] = src.split('/')
       const filePath = filePathParts.join('/')
 
@@ -60,7 +60,7 @@ export async function POST (request: NextRequest) {
 
           if (uploadError) {
             console.error('Error uploading file:', uploadError)
-            return
+            //donT return to ensure deleting default file
           }
 
           // Delete the file from the original bucket
@@ -71,8 +71,8 @@ export async function POST (request: NextRequest) {
           if (deleteError) {
             console.error('Error deleting file:', deleteError)
           } else {
-            recipes[0].image = '/' + destinationBucketName + '/' + filePath
-            console.log(recipes[0].image + 'H1')
+            recipe[0].image = '/' + destinationBucketName + '/' + filePath
+            console.log(recipe[0].image + 'H1')
             console.log('File moved successfully')
           }
         } catch (error) {
@@ -80,10 +80,9 @@ export async function POST (request: NextRequest) {
         }
       })()
     }
-    console.log(recipes[0].image + 'H2')
     const { data, error } = await supabase.rpc('upsert_user_recipe', {
       p_user_id: user.id,
-      p_recipe: recipes[0], // Assuming you want to use the first recipe
+      p_recipe: recipe[0], // Assuming you want to use the first recipe
       p_index: index // Pass the index if provided, otherwise it will be NULL
     })
 

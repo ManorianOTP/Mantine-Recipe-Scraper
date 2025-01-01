@@ -24,6 +24,7 @@ export default function HomePage () {
         }
 
         const data = await response.json()
+        console.log(data)
         setData(data[0].recipes || [])
         console.log('Success:', data.message)
       } catch (error) {

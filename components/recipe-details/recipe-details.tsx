@@ -18,9 +18,37 @@ import EditableText from '@/components/editable-text/editable-text'
 import { useEffect, useState } from 'react'
 
 export default function RecipeDetails () {
-  const { recipeData, index } = useHtmlData()
+  const { recipeData, index, setIndex } = useHtmlData()
   if (!recipeData) return null
   const [signedUrl, setSignedUrl] = useState(null)
+  const [recipes, setRecipes] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/get-recipes', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          console.error('Error:', errorData.error)
+          return
+        }
+
+        const data = await response.json()
+        setRecipes(data[0].recipes || [])
+        console.log('Success:', data.message)
+      } catch (error) {
+        console.error('Request failed:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
   useEffect(() => {
     if (recipeData.image) {
       const fetchSignedUrl = async () => {
@@ -75,15 +103,22 @@ export default function RecipeDetails () {
                 mr={5}
                 mt={10}
                 onClick={async () => {
-                  const recipes = [recipeData]
+                  let recipe = [JSON.parse(JSON.stringify(recipeData))];
 
                   try {
+                    let newRecipe = true
+                    if (index !== null) {
+                      newRecipe = false
+                      recipe[0].image= recipe[0].image.replace('/temporary-recipe-images', '/recipe-images')
+                    }
+                    console.log(recipe)
+                    console.log(index)
                     const response = await fetch('/api/add-recipe', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
                       },
-                      body: JSON.stringify({ recipes, index })
+                      body: JSON.stringify({ recipe, index })
                     })
 
                     if (!response.ok) {
@@ -91,8 +126,10 @@ export default function RecipeDetails () {
                       console.error('Error:', errorData.error)
                       return
                     }
-
                     const data = await response.json()
+                    if (newRecipe) {
+                      setIndex(recipes.length + 1)
+                    }
                     console.log('Success:', data.message)
                   } catch (error) {
                     console.error('Request failed:', error)
