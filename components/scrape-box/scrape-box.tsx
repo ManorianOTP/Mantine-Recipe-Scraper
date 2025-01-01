@@ -45,7 +45,6 @@ export default function ScrapeBox () {
       setIsLoading(false)
     }
   }
-  const isLargeScreen = useMediaQuery('(min-width: 1440px)')
 
   return (
     <>

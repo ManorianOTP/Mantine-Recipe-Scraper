@@ -24,7 +24,7 @@ export default function HomePage () {
         }
 
         const data = await response.json()
-        setData(data[0].recipes || []) // Assuming the response has an 'items' array
+        setData(data[0].recipes || [])
         console.log('Success:', data.message)
       } catch (error) {
         console.error('Request failed:', error)
