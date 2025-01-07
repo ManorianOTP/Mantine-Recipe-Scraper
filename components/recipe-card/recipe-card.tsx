@@ -10,7 +10,7 @@ export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: 
   if (!recipeData) return null
   const [signedUrl, setSignedUrl] = useState<string | null>("-1")
     useEffect(() => {
-      if (recipeData.image) {
+      // if (recipeData.image) {
         const fetchSignedUrl = async () => {
           try {
             const response = await fetch(
@@ -31,8 +31,8 @@ export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: 
         }
   
         fetchSignedUrl()
-      }
-    }, [recipeData.image])
+      // }
+    }, [])
   
     if (signedUrl === "-1") return null
 
