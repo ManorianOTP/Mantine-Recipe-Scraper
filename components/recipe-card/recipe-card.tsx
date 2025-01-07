@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: number}) {
   const { recipeData, setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
-  if (!recipeData) return null
+  // if (!recipeData) return null
   const [signedUrl, setSignedUrl] = useState<string | null>("-1")
     useEffect(() => {
       // if (recipeData.image) {
