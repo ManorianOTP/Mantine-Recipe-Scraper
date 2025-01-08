@@ -7,10 +7,9 @@ import { useEffect, useState } from 'react';
 export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: number}) {
   const { recipeData, setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
-  // if (!recipeData) return null
+
   const [signedUrl, setSignedUrl] = useState<string | null>("-1")
     useEffect(() => {
-      // if (recipeData.image) {
         const fetchSignedUrl = async () => {
           try {
             const response = await fetch(
@@ -29,9 +28,7 @@ export default function RecipeCard ({ recipe, index }: { recipe: Recipe, index: 
             console.error('Error fetching signed URL:', error)
           }
         }
-  
         fetchSignedUrl()
-      // }
     }, [])
   
     if (signedUrl === "-1") return null

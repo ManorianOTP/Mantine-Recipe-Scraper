@@ -37,7 +37,7 @@ export default function HomePage () {
 
   return (
     <>
-      <Grid m={'5px'}>
+      <Grid m={'5px'} gutter={'xs'}>
         {data.map((item, index) => (
           <Grid.Col
             key={index}
