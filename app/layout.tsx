@@ -1,6 +1,5 @@
 import '@mantine/core/styles.css'
 
-import { Monitoring } from "react-scan/monitoring/next";
 import React from 'react'
 import type { Metadata } from 'next'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
@@ -8,7 +7,7 @@ import { theme } from '../theme'
 import { HtmlDataProvider } from './contexts/HtmlDataContext'
 import HeaderBar from '@/components/header-bar/header-bar'
 import { Notifications } from '@mantine/notifications'
-import '@mantine/notifications/styles.css';
+import '@mantine/notifications/styles.css'
 
 export const metadata: Metadata = {
   title: 'Recipe Scraper',
@@ -29,10 +28,6 @@ export default function RootLayout ({ children }: { children: any }) {
         />
       </head>
       <body>
-      <Monitoring
-          apiKey="eTAYE0QC3MftjpcFQtZ55gk1eFiNk_2x" // Safe to expose publically
-          url="https://monitoring.react-scan.com/api/v1/ingest"
-        />
         <MantineProvider theme={theme}>
           <Notifications />
           <HtmlDataProvider>
