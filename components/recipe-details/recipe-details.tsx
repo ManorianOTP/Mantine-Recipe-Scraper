@@ -14,9 +14,9 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import { useHtmlData } from '@/app/contexts/HtmlDataContext';
 import EditableText from '@/components/editable-text/editable-text';
-import { useEffect, useState } from 'react';
 
 export default function RecipeDetails() {
   const { recipeData, index, setIndex } = useHtmlData();
@@ -42,7 +42,6 @@ export default function RecipeDetails() {
 
         const data = await response.json();
         setRecipes(data[0].recipes || []);
-        console.log('Success:', data.message);
       } catch (error) {
         console.error('Request failed:', error);
       }
@@ -111,7 +110,7 @@ export default function RecipeDetails() {
                 mr={5}
                 mt={10}
                 onClick={async () => {
-                  let recipe = [JSON.parse(JSON.stringify(recipeData))];
+                  const recipe = [JSON.parse(JSON.stringify(recipeData))];
 
                   try {
                     let newRecipe = true;
@@ -122,8 +121,6 @@ export default function RecipeDetails() {
                         '/recipe-images'
                       );
                     }
-                    console.log(recipe);
-                    console.log(index);
                     const response = await fetch('/api/add-recipe', {
                       method: 'POST',
                       headers: {
@@ -141,7 +138,6 @@ export default function RecipeDetails() {
                     if (newRecipe) {
                       setIndex(recipes.length + 1);
                     }
-                    console.log('Success:', data.message);
                   } catch (error) {
                     console.error('Request failed:', error);
                   }

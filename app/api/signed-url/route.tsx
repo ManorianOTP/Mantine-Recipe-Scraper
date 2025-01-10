@@ -35,7 +35,6 @@ export async function GET(request: NextRequest) {
       .from(bucketName)
       .createSignedUrl(filePath, 60);
 
-
     if (error) {
       console.error('Error creating signed URL:', error);
       return NextResponse.json(
@@ -49,7 +48,6 @@ export async function GET(request: NextRequest) {
       { signedUrl: data.signedUrl },
       { status: 200 }
     );
-
   } catch (error) {
     console.error('Internal Server Error:', error);
     return NextResponse.json(

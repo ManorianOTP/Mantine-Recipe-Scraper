@@ -1,11 +1,11 @@
 import { Card, Image, Text, Badge, Button, Group, Rating, Skeleton } from '@mantine/core';
-import { Recipe } from '@/app/types';
-import { useHtmlData } from '@/app/contexts/HtmlDataContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Recipe } from '@/app/types';
+import { useHtmlData } from '@/app/contexts/HtmlDataContext';
 
 export default function RecipeCard({ recipe, index }: { recipe: Recipe; index: number }) {
-  const { recipeData, setRecipeData, setIndex } = useHtmlData();
+  const { setRecipeData, setIndex } = useHtmlData();
   const router = useRouter();
 
   const [signedUrl, setSignedUrl] = useState<string | null>(null);

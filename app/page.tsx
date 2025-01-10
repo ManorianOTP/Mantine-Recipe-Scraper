@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import RecipeCard from '@/components/recipe-card/recipe-card'
-import { Grid } from '@mantine/core'
-import { useEffect, useState } from 'react'
+import { Grid } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import RecipeCard from '@/components/recipe-card/recipe-card';
 
-export default function HomePage () {
-  const [data, setData] = useState([])
+export default function HomePage() {
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,31 +13,29 @@ export default function HomePage () {
         const response = await fetch('/api/get-recipes', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+            'Content-Type': 'application/json',
+          },
+        });
 
         if (!response.ok) {
-          const errorData = await response.json()
-          console.error('Error:', errorData.error)
-          return
+          const errorData = await response.json();
+          console.error('Error:', errorData.error);
+          return;
         }
 
-        const data = await response.json()
-        console.log(data)
-        setData(data[0].recipes || [])
-        console.log('Success:', data.message)
+        const data = await response.json();
+        setData(data[0].recipes || []);
       } catch (error) {
-        console.error('Request failed:', error)
+        console.error('Request failed:', error);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <>
-      <Grid m={'5px'} gutter={'xs'}>
+      <Grid m="5px" gutter="xs">
         {data.map((item, index) => (
           <Grid.Col
             key={index}
@@ -48,5 +46,5 @@ export default function HomePage () {
         ))}
       </Grid>
     </>
-  )
+  );
 }
