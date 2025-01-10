@@ -19,7 +19,7 @@ import { login, signup } from './actions';
 
 export default function LoginPage() {
   const [type, toggle] = useToggle(['login', 'register']);
-  const handleSubmit = type === 'register' ? signup : login;
+  const handleSubmit = type === 'register' ?  signup : login;
   const form = useForm({
     initialValues: {
       email: '',
