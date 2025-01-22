@@ -55,7 +55,6 @@ export default function ScrapeBox() {
           onChange={e => setUrl(e.target.value)}
           placeholder="Add a new recipe"
           rightSection={
-            <>
               <ActionIcon
                 color="icon"
                 type="submit"
@@ -68,7 +67,6 @@ export default function ScrapeBox() {
                   <IconSearch size={16} strokeWidth={1.5} />
                 )}
               </ActionIcon>
-            </>
           }
         />
       </form>
