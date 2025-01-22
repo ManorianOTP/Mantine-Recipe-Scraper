@@ -61,20 +61,6 @@ export default function ScrapeBox() {
                 type="submit"
                 variant="subtle"
                 radius="xl"
-                darkHidden
-              >
-                {isLoading ? (
-                  <Loader size="xs" />
-                ) : (
-                  <IconSearch size={16} strokeWidth={1.5} />
-                )}
-              </ActionIcon>
-              <ActionIcon
-                color="icon"
-                type="submit"
-                variant="subtle"
-                radius="xl"
-                lightHidden
               >
                 {isLoading ? (
                   <Loader size="xs" />
