@@ -27,6 +27,7 @@ export default async function HeaderBar() {
           <Link
             className={`${classes.link} ${classes.responsiveLink}`}
             href="/"
+            prefetch={true}
           >
             <Text size="lg" fw={700} className={classes.responsiveLink}>
               FlavorSync
