@@ -43,6 +43,12 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
+    notifications.show({
+      icon: <X />,
+      color: 'red',
+      title: 'Email Error',
+      message: `Verification email was unable to be sent to ${formData.get('email')}`,
+    });
     return { success: false, message: error.message };
   }
 
