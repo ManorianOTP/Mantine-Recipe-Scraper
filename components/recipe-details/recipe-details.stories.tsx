@@ -33,7 +33,7 @@ const mockData = {
       'Spread the buttercream over the bottom of one of the sponges. Top it with 170g strawberry jam and sandwich the second sponge on top.',
       'Dust with a little icing sugar before serving. Keep in an airtight container and eat within 2 days.',
   ],
-  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque aut explicabo exercitationem quis perferendis suscipit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque aut explicabo exercitationem quis perferendis suscipit?',
+  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque aut explicabo exercitationem quis perferendis suscipit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium adipisci dolore quod nostrum sequi? Cupiditate id soluta obcaecati eos error rem consequuntur, asperiores itaque aut explicabo exercitationem quis perferendis suscipit? Hi',
   image: '/',
   prepTime: '40',
   cookTime: '20',
